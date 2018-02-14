@@ -1,5 +1,5 @@
 name: remove_example
-description: An example illustrating how the remove_transformer transformer works.
+description: An example showing how remove_transformer works.
 
 dev_dependencies:
   remove_transformer: '>=1.0.0 <2.0.0'

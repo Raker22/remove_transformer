@@ -25,17 +25,17 @@ Debug+Release
   group('apply()', () {
     test('replaces lines marked with replace:line', () async {
       final String testFile = 'test/test_data/replace_line.txt';
-      final AssetId fakeInputFileAssetId = new AssetId('testid', testFile);
+      final AssetId assetId = new AssetId('testid', testFile);
       final MockAsset inputFile = new MockAsset();
       final MockTransform mockTransform = new MockTransform();
 
-      when(inputFile.id).thenReturn(fakeInputFileAssetId);
+      when(inputFile.id).thenReturn(assetId);
       when(inputFile.readAsString()).thenReturn(
         new File.fromUri(Uri.parse(testFile)).readAsString()
       );
 
       when(mockTransform.primaryInput).thenReturn(inputFile);
-      when(mockTransform.readInputAsString(fakeInputFileAssetId)).thenAnswer((_) {
+      when(mockTransform.readInputAsString(assetId)).thenAnswer((_) {
         return new File.fromUri(Uri.parse(testFile)).readAsString();
       });
 
@@ -49,17 +49,17 @@ Debug+Release
 
     test('replaces blocks marked with replace:start / replace:end', () async {
       final String testFile = 'test/test_data/replace_block.txt';
-      final AssetId fakeInputFileAssetId = new AssetId('testid', testFile);
+      final AssetId assetId = new AssetId('testid', testFile);
       final MockAsset inputFile = new MockAsset();
       final MockTransform mockTransform = new MockTransform();
 
-      when(inputFile.id).thenReturn(fakeInputFileAssetId);
+      when(inputFile.id).thenReturn(assetId);
       when(inputFile.readAsString()).thenReturn(
         new File.fromUri(Uri.parse(testFile)).readAsString()
       );
 
       when(mockTransform.primaryInput).thenReturn(inputFile);
-      when(mockTransform.readInputAsString(fakeInputFileAssetId)).thenAnswer((_) {
+      when(mockTransform.readInputAsString(assetId)).thenAnswer((_) {
         return new File.fromUri(Uri.parse(testFile)).readAsString();
       });
 
@@ -71,25 +71,37 @@ Debug+Release
       expect(transformedFile, equals(replaceExpected));
     });
 
-    test('does not modify the file when not in \'relase\' mode', () async {
-      final String testFile = 'test/test_data/replace_block.txt';
-      final AssetId fakeInputFileAssetId = new AssetId('testid', testFile);
+    test('does not modify the file if it isn\'t UTF-8 encoded', () async {
+      final String testFile = 'test/test_data/test_image.png';
+      final AssetId assetId = new AssetId('testid', testFile);
       final MockAsset inputFile = new MockAsset();
       final MockTransform mockTransform = new MockTransform();
 
-      when(inputFile.id).thenReturn(fakeInputFileAssetId);
-      when(inputFile.readAsString()).thenReturn(
-        new File.fromUri(Uri.parse(testFile)).readAsString()
-      );
+      when(inputFile.id).thenReturn(assetId);
+      when(inputFile.readAsString()).thenThrow(const FormatException());
 
       when(mockTransform.primaryInput).thenReturn(inputFile);
-      when(mockTransform.readInputAsString(fakeInputFileAssetId)).thenAnswer((_) {
-        return new File.fromUri(Uri.parse(testFile)).readAsString();
+      when(mockTransform.readInputAsString(assetId)).thenAnswer((_) {
+        return const FormatException();
       });
 
       await debugTransformer.apply(mockTransform);
 
       verifyNever(mockTransform.addOutput(captureAny));
+    });
+  });
+
+  group('isPrimary()', () {
+    test('returns true when in \'release\' mode', () {
+      final AssetId assetId = new AssetId('testid', '');
+
+      expect(releaseTransformer.isPrimary(assetId), isTrue);
+    });
+
+    test('returns false when not in \'release\' mode', () async {
+      final AssetId assetId = new AssetId('testid', '');
+
+      expect(debugTransformer.isPrimary(assetId), isFalse);
     });
   });
 }
