@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Remove Example</title>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script defer src="main.dart" type="application/dart"></script>
+  <script defer src="packages/browser/dart.js"></script>
+</head>
+<body>
+  <h1>
+    Remove
+    Debug <!-- remove:line
+    Release
+    remove:line -->
+  </h1>
+
+  <p>
+    This example illustrates how the remove transformer works.
+  </p>
+  <!-- remove:start -->
+  <p>THIS LINE SHOULD NOT BE IN PRODUCTION!!!</p>
+  <!-- remove:end -->
+</body>
+</html>

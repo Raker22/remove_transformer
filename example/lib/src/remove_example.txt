@@ -1,0 +1,12 @@
+// This is the code from main.dart in text format
+
+main() {
+  // This print will be changed in release
+  print('Hello Debug'); // remove:line
+  /* remove:line
+  print('Hello Release');
+  remove:line */
+  // remove:start
+  print('This line is for debug only!!!');
+  // remove:end
+}

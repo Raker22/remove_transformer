@@ -1,0 +1,14 @@
+name: remove_example
+description: An example illustrating how the remove_transformer transformer works.
+
+dev_dependencies:
+  remove_transformer: '>=1.0.0 <2.0.0'
+  browser: ^0.10.0
+  dart_to_js_script_rewriter: ^1.0.0
+
+dependency_overrides:
+  remove_transformer: {path: ..}
+
+transformers:
+- remove_transformer
+- dart_to_js_script_rewriter

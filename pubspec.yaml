@@ -1,0 +1,15 @@
+name: remove_transformer
+description: A simple dart transformer that removes content from files when building in release mode.
+version: 1.0.0
+homepage: https://github.com/Raker22/remove_transformer
+author: Josh Raker <raker220@gmail.com>
+
+environment:
+  sdk: '>=1.20.1 <2.0.0'
+
+dependencies:
+  barback: ^0.15.0
+
+dev_dependencies:
+  test: ^0.12.0
+  mockito: ^2.2.0
