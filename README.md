@@ -1,5 +1,5 @@
 # Remove Transformer
-<a href="https://pub.dartlang.org/packages/remove_transformer"><img src="https://img.shields.io/pub/v/remove_transformer.svg" alt="Pub" /></a>
+[![Pub](https://img.shields.io/pub/v/remove_transformer.svg)](https://pub.dartlang.org/packages/remove_transformer)
 
 A simple dart transformer that removes content from files when building in release mode.
 
